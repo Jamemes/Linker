@@ -1,5 +1,3 @@
-local data = ChatManager.send_message
-function ChatManager:send_message(channel_id, sender, message)
 	if message == "/invite" or message == "/link" then
 		if Global.game_settings.permission ~= "public" then
 			managers.chat:feed_system_message(ChatManager.GAME, managers.localization:text("DBU37_premission"))
@@ -79,6 +77,3 @@ function ChatManager:send_message(channel_id, sender, message)
 
 		return
 	end
-	
-	data(self, channel_id, sender, message)
-end
