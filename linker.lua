@@ -66,7 +66,7 @@ local difficulty = diffs[tweak_data:index_to_difficulty(tweak_data:difficulty_to
 local state = (Utils:IsInGameState() and not Utils:IsInHeist()) and "Briefing" or Utils:IsInHeist() and "In Game" or "In Lobby"
 local plrs = managers.network:game():amount_of_members() .. "/4"
 local link = "steam://joinlobby/218620/" .. my_lobby_id .. "/" .. managers.network.account:player_id()
-local script = [[curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"username\": \"%s\", \"content\": \"Version: %s\nStage: %s\nDifficulty: %s\nState: %s\nPlayers: %s\n `%s` \"}" discord-webhook-link %s]]
+local script = [[curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"username\": \"%s\", \"content\": \"Version: %s\nStage: %s\nDifficulty: %s\nState: %s\nPlayers: %s\n`%s` \"}" discord-webhook-link %s]]
 os.execute(string.format(script, user, version, stage, difficulty, state, plrs, link, webhook))
 managers.chat:feed_system_message(ChatManager.GAME, managers.localization:text("DBU37_link_created"))
 managers.menu_component:post_event("infamous_player_join_stinger")
