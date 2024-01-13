@@ -1,7 +1,6 @@
 if Global.game_settings.permission ~= "public" then
 	managers.chat:feed_system_message(ChatManager.GAME, managers.localization:text("DBU37_premission"))
 	managers.menu_component:post_event("menu_error")
-	
 	return
 end
 
