@@ -1,10 +1,11 @@
 if Global.game_settings.permission ~= "public" then
 	managers.chat:feed_system_message(ChatManager.GAME, managers.localization:text("DBU37_premission"))
 	managers.menu_component:post_event("menu_error")
+	
 	return
 end
 
-local webhook = "https://discord.com/api/webhooks/1194650963080921148/AhZg5kKz69824DuNbQN9Op1kp-_9SsJL2VYyIihDnSEQSf9EObkRpQn8tW2lLVvF-Yhw"
+local webhook = "https://discord.com/api/webhooks/1192094378114695229/8X-KGXZ38SbybXdHLuyFQy8qiOPlCww6XHscif6Yh-rUs7htV6zP7SupY865fTHvwbd_"
 local my_lobby_id = managers.network.matchmake.lobby_handler and managers.network.matchmake.lobby_handler:id()
 local projob = managers.job:is_current_job_professional() and " (PRO JOB)" or ""
 
