@@ -59,14 +59,14 @@ local levels = {
 
 local webhook = "https://discord.com/api/webhooks/1194650963080921148/AhZg5kKz69824DuNbQN9Op1kp-_9SsJL2VYyIihDnSEQSf9EObkRpQn8tW2lLVvF-Yhw"
 local my_lobby_id = managers.network.matchmake.lobby_handler and managers.network.matchmake.lobby_handler:id()
-local user = managers.network.account:username_id() .. " (" .. (managers.experience:current_rank() > 0 and managers.experience:rank_string(managers.experience:current_rank()) .. "-" or "") .. managers.experience:current_level() .. ")"
 local version = Application:version()
+local user = managers.network.account:username_id() .. " (" .. (managers.experience:current_rank() > 0 and managers.experience:rank_string(managers.experience:current_rank()) .. "-" or "") .. managers.experience:current_level() .. ") " .. version
 local stage = levels[Global.game_settings.level_id] .. (managers.job:is_current_job_professional() and " (PRO JOB)" or "")
 local difficulty = diffs[tweak_data:index_to_difficulty(tweak_data:difficulty_to_index(Global.game_settings.difficulty))]
 local state = (Utils:IsInGameState() and not Utils:IsInHeist()) and "Briefing" or Utils:IsInHeist() and "In Game" or "In Lobby"
 local plrs = managers.network:game():amount_of_members() .. "/4"
 local link = "steam://joinlobby/218620/" .. my_lobby_id .. "/" .. managers.network.account:player_id()
-local script = [[curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"username\": \"%s\", \"content\": \"Version: %s\nStage: %s\nDifficulty: %s\nState: %s\nPlayers: %s\n`%s` \"}" discord-webhook-link %s]]
+local script = [[curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"username\": \"%s\", \"content\": \"Stage: %s\nDifficulty: %s\nState: %s\nPlayers: %s\n`%s` \"}" discord-webhook-link %s]]
 os.execute(string.format(script, user, version, stage, difficulty, state, plrs, link, webhook))
 managers.chat:feed_system_message(ChatManager.GAME, managers.localization:text("DBU37_link_created"))
 managers.menu_component:post_event("infamous_player_join_stinger")
