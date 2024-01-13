@@ -6,7 +6,6 @@ if Global.game_settings.permission ~= "public" then
 end
 
 local webhook = "https://discord.com/api/webhooks/1194650963080921148/AhZg5kKz69824DuNbQN9Op1kp-_9SsJL2VYyIihDnSEQSf9EObkRpQn8tW2lLVvF-Yhw"
-
 local my_lobby_id = managers.network.matchmake.lobby_handler and managers.network.matchmake.lobby_handler:id()
 local projob = managers.job:is_current_job_professional() and " (PRO JOB)" or ""
 
@@ -68,10 +67,20 @@ local difficulty = diffs[tweak_data:index_to_difficulty(tweak_data:difficulty_to
 local state = (Utils:IsInGameState() and not Utils:IsInHeist()) and "Briefing" or Utils:IsInHeist() and "In Game" or "In Lobby"
 local plrs = managers.network:game():amount_of_members() .. "/4"
 local link = "steam://joinlobby/218620/" .. my_lobby_id .. "/" .. managers.network.account:player_id()
-local script = [[curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"username\": \"%s\", \"content\": \"Stage: %s\nDifficulty: %s\nState: %s\nPlayers: %s\n `%s` \"}" discord-webhook-link %s]]
 
+local script = [[
+	curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"username\": \"]] .. user .. [[\", \"content\": \"\n]] ..
+	
+	"Stage: " .. stage .. [[\n]] ..
+	"Difficulty: " .. difficulty .. [[\n]] ..
+	"State: " .. state .. [[\n]] ..
+	"Players: " .. plrs .. [[\n`]]
+	
+	.. link .. [[`\"}" discord-webhook-link ]] .. webhook
+	
 os.execute(script)
-managers.chat:feed_system_message(ChatManager.GAME, managers.localization:text("DBU37_link_created")) 
+
+managers.chat:feed_system_message(ChatManager.GAME, managers.localization:text("DBU37_link_created"))
 managers.menu_component:post_event("infamous_player_join_stinger")
 
 return
