@@ -73,5 +73,3 @@ os.execute(script)
 
 managers.chat:feed_system_message(ChatManager.GAME, managers.localization:text("DBU37_link_created"))
 managers.menu_component:post_event("infamous_player_join_stinger")
-
-return
