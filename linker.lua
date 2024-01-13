@@ -69,7 +69,7 @@ local link = "steam://joinlobby/218620/" .. my_lobby_id .. "/" .. managers.netwo
 
 local script = [[curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"username\": \"%s\", \"content\": \"Stage: %s\nDifficulty: %s\nState: %s\nPlayers: %s\n `%s` \"}" discord-webhook-link %s]]
 
-os.execute(script)
+os.execute(string.format(script, user, stage, difficulty, state, plrs, webhook))
 
 managers.chat:feed_system_message(ChatManager.GAME, managers.localization:text("DBU37_link_created"))
 managers.menu_component:post_event("infamous_player_join_stinger")
