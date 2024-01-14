@@ -89,7 +89,7 @@ local function job()
 	if levels[job_id] then
 		return levels[job_id]
 	else
-		return utf8.to_upper(job_id:gsub("_", " "))
+		return utf8.to_upper(job_id:gsub("_prof", ""):gsub("_", " "))
 	end
 end
 
