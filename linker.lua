@@ -85,11 +85,12 @@ local function difficulty()
 end
 
 local function job()
-	local job_id = Global.job_manager.current_job and Global.job_manager.current_job.job_id
+	local job_id = Global.job_manager.current_job and Global.job_manager.current_job.job_id:gsub("_prof", "")
+	
 	if levels[job_id] then
 		return levels[job_id]
 	else
-		return utf8.to_upper(job_id:gsub("_prof", ""):gsub("_", " "))
+		return utf8.to_upper(job_id:gsub("_", " "))
 	end
 end
 
