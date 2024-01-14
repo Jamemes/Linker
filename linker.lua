@@ -71,8 +71,8 @@ local function job()
 	local level_id = Global.game_settings.level_id
 	local level = levels[level_id] and levels[level_id] or utf8.to_upper(level_id:gsub("_", " "))
 	local prof = managers.job:is_current_job_professional() and " PRO JOB" or ""
-	local day = managers.job:current_stage()
-	local days = managers.job:current_job_chain_data()
+	local day = managers.job:current_stage() or 1
+	local days = managers.job:current_job_chain_data() or 1
 	
 	return string.format("%s%s%s", job, prof, tostring(days > 1 and "(" .. day .. "/" .. days ..") [" .. level .. "]" or ""))
 end
