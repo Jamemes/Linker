@@ -101,12 +101,12 @@ local function level()
 		return utf8.to_upper(level_id:gsub("_", " "))
 	end
 end
-local day = Global.job_manager.current_stage
-local days = Global.job_manager.stages
+local day = Global.job_manager.current_stage or 1
+local days = Global.job_manager.stages or 1
 local webhook = "https://discord.com/api/webhooks/1194650963080921148/AhZg5kKz69824DuNbQN9Op1kp-_9SsJL2VYyIihDnSEQSf9EObkRpQn8tW2lLVvF-Yhw"
 local version = Application:version()
 local user = managers.network.account:username_id() .. " (" .. (managers.experience:current_rank() > 0 and managers.experience:rank_string(managers.experience:current_rank()) .. "-" or "") .. managers.experience:current_level() .. ") " .. version
-local stage = string.format("%s%s%s", job(), tostring(managers.job:is_current_job_professional() and " PRO JOB" or ""), tostring(days ~= nil and days > 1 and "(" .. day .. "/" .. days ..") [" .. level() .. "]" or ""))
+local stage = string.format("%s%s%s", job(), tostring(managers.job:is_current_job_professional() and " PRO JOB" or ""), tostring(days > 1 and "(" .. day .. "/" .. days ..") [" .. level() .. "]" or ""))
 local state = (Utils:IsInGameState() and not Utils:IsInHeist()) and "Briefing" or Utils:IsInHeist() and "In Game" or "In Lobby"
 local plrs = managers.network:game():amount_of_members() .. "/4"
 local link = string.format("steam://joinlobby/218620/%s/%s", managers.network.matchmake.lobby_handler and managers.network.matchmake.lobby_handler:id(), managers.network.account:player_id())
