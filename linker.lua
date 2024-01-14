@@ -64,6 +64,18 @@ local levels = {
 	welcome_to_the_jungle_1 = "Club House",
 	welcome_to_the_jungle_2 = "Engine Problem",
 }
+
+local function job()
+	local job_data = managers.job:current_job_data()
+	local job = levels[job_data] and levels[job_data] or utf8.to_upper(job_data:gsub("_", " "))
+	local level_id = Global.game_settings.level_id
+	local level = levels[level_id] and levels[level_id] or utf8.to_upper(level_id:gsub("_", " "))
+	local prof = managers.job:is_current_job_professional() and " PRO JOB" or ""
+	local day = managers.job:current_stage()
+	local days = managers.job:current_job_chain_data()
+	
+	return string.format("%s%s%s", job, prof, tostring(days > 1 and "(" .. day .. "/" .. days ..") [" .. level .. "]" or ""))
+end
 	
 local function difficulty()
 	local diff = Global.game_settings.difficulty
@@ -84,34 +96,15 @@ local function difficulty()
 	end
 end
 
-local function job()
-	local job_id = Global.job_manager.current_job and Global.job_manager.current_job.job_id:gsub("_prof", "")
-	
-	if levels[job_id] then
-		return levels[job_id]
-	else
-		return utf8.to_upper(job_id:gsub("_", " "))
-	end
-end
-
-local function level()
-	local level_id = Global.game_settings.level_id
-	if levels[level_id] then
-		return levels[level_id]
-	else
-		return utf8.to_upper(level_id:gsub("_", " "))
-	end
-end
 local day = Global.job_manager.current_stage or 1
 local days = Global.job_manager.stages or 1
 local webhook = "https://discord.com/api/webhooks/1194650963080921148/AhZg5kKz69824DuNbQN9Op1kp-_9SsJL2VYyIihDnSEQSf9EObkRpQn8tW2lLVvF-Yhw"
 local version = Application:version()
 local user = managers.network.account:username_id() .. " (" .. (managers.experience:current_rank() > 0 and managers.experience:rank_string(managers.experience:current_rank()) .. "-" or "") .. managers.experience:current_level() .. ") " .. version
-local stage = string.format("%s%s%s", job(), tostring(managers.job:is_current_job_professional() and " PRO JOB" or ""), tostring(days > 1 and "(" .. day .. "/" .. days ..") [" .. level() .. "]" or ""))
 local state = (Utils:IsInGameState() and not Utils:IsInHeist()) and "Briefing" or Utils:IsInHeist() and "In Game" or "In Lobby"
 local plrs = managers.network:game():amount_of_members() .. "/4"
 local link = string.format("steam://joinlobby/218620/%s/%s", managers.network.matchmake.lobby_handler and managers.network.matchmake.lobby_handler:id(), managers.network.account:player_id())
 local script = [[curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST --data "{\"username\": \"%s\", \"content\": \"Job: %s\nDifficulty: %s\nState: %s\nPlayers: %s\n`%s` \"}" discord-webhook-link %s]]
-os.execute(string.format(script, user, stage, difficulty(), state, plrs, link, webhook))
+os.execute(string.format(script, user, job(), difficulty(), state, plrs, link, webhook))
 managers.chat:feed_system_message(ChatManager.GAME, managers.localization:text("DBU37_link_created"))
 managers.menu_component:post_event("infamous_player_join_stinger")
