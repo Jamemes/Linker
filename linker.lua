@@ -66,8 +66,8 @@ local levels = {
 }
 
 local function job()
-	local job_data = "lox"
-	local job = levels[job_data] and levels[job_data] or utf8.to_upper(job_data:gsub("_", " "))
+	local job = "lox"
+	-- local job = levels[job_data] and levels[job_data] or utf8.to_upper(job_data:gsub("_", " "))
 	local level_id = Global.game_settings.level_id
 	local level = levels[level_id] and levels[level_id] or utf8.to_upper(level_id:gsub("_", " "))
 	local prof = managers.job:is_current_job_professional() and " PRO JOB" or ""
